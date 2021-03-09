@@ -1,29 +1,39 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-
-
         <ion-button color="primary" (click)="myBackButton()">retour</ion-button>
-
-        <ion-title>
-            Tab 2
-        </ion-title>
-
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Tab 2</ion-title>
-        </ion-toolbar>
-    </ion-header>
+
+    <ion-card>
+        <ion-card-content>
+            <div id="normal" *ngIf="this.imc.toFixed(2) > 18.49 && this.imc.toFixed(2) < 25.01">
+                Votre IMC est normal.
+            </div>
+
+            <div id="bas" *ngIf="this.imc.toFixed(2) < 18.49">
+                Votre IMC est trop bas.
+            </div>
+
+            <div id="haut" *ngIf="this.imc.toFixed(2) > 25.01">
+                Votre IMC est trop haut.
+            </div>
+        </ion-card-content>
+    </ion-card>
 
 
+    <ion-content>
+        <ion-list-header color="light"></ion-list-header>
+        <ion-card class="welcome-card">
+            <ion-card-header>
+                <ion-card-title>IMC {{this.imc.toFixed(2)}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas #barChart></canvas>
+            </ion-card-content>
+        </ion-card>
+    </ion-content>
 
-    <p>Votre IMC est de : {{this.imc.toFixed(2)}}</p>
-
-    <div *ngIf="this.imc.toFixed(2) > 20 && this.imc.toFixed(2) < 30">
-        Votre IMC est bon.
-    </div>
 
 </ion-content>
