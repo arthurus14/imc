@@ -15,10 +15,10 @@ export class Tab1Page {
 
   constructor(public navCtrl : NavController, private router : Router) {}
 
-  public imc(age:number,poids:number,taille:number){
+  public imc(poids:number,taille:number){
 
     this.router.navigate(['Tab2Page',{
-      age : age,
+      
       poids : poids,
       taille : taille
 

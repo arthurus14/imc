@@ -20,7 +20,6 @@ export class Tab2Page  {
   
 
   poids: number;
-  age : number;
   taille : number;
 
   imc : number;
@@ -30,7 +29,6 @@ export class Tab2Page  {
   //...
   sub = this.route.params.subscribe(params => {
        this.poids = params['poids'];
-       this.age = params['age'];
        this.taille = params['taille'];
        
        
