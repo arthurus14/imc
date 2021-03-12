@@ -9,7 +9,7 @@
 <ion-content id="fond" [fullscreen]="true">
     <ion-header collapse="condense">
         <ion-toolbar>
-            <ion-title size="large">Tab 1</ion-title>
+            <ion-title style="text-align:center">Calcul IMC</ion-title>
         </ion-toolbar>
     </ion-header>
 
@@ -20,7 +20,7 @@
     </ion-item>
 
     <ion-item>
-        <ion-input type="number" placeholder="Taille ex: 1.70 m" [(ngModel)]="taille" step="0.01" min="1.50" max="2.5" required></ion-input>
+        <ion-input type="number" placeholder="Taille ex: 170 m" [(ngModel)]="taille" step="1" min="150" max="250" required></ion-input>
     </ion-item>
 
 

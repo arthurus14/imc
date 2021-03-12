@@ -19,21 +19,32 @@ export class Tab2Page  {
 
   
 
-  poids: number;
-  taille : number;
+  poids: any;
+  taille : any;
 
   imc : number;
   couleur:any;
+  ideal:number;
+  min:number;
+  max:number;
 
   constructor(private route: ActivatedRoute,private location: Location) {}
   //...
   sub = this.route.params.subscribe(params => {
-       this.poids = params['poids'];
-       this.taille = params['taille'];
+       this.poids = params['poids'].replace('/./','');
+       this.taille = params['taille'].replace('.','');
        
        
-   this.imc = (this.poids/(this.taille * this.taille));  
+   this.imc = (this.poids/(this.taille * this.taille)*10000);  
    
+   //poids idéal formule de Broca
+   this.ideal = (this.taille - 100);
+
+   //imc mini
+   this.min = ((18.5 * this.poids)/this.imc)+1;
+   this.max = ((25 * this.poids)/this.imc);
+
+
        
   });
 

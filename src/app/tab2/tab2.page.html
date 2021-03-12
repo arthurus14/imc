@@ -1,29 +1,36 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-button color="primary" (click)="myBackButton()">retour</ion-button>
+        <ion-button fill="clear" (click)="myBackButton()">
+            <ion-icon slot="icon-only" name="home"></ion-icon>
+        </ion-button>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-    <ion-card>
-        <ion-card-content>
-            <div id="normal" *ngIf="this.imc.toFixed(2) > 18.49 && this.imc.toFixed(2) < 25.01">
-                Votre IMC est normal.
-            </div>
-
-            <div id="bas" *ngIf="this.imc.toFixed(2) < 18.49">
-                Votre IMC est trop bas.
-            </div>
-
-            <div id="haut" *ngIf="this.imc.toFixed(2) > 25.01">
-                Votre IMC est trop haut.
-            </div>
-        </ion-card-content>
-    </ion-card>
-
 
     <ion-content>
+
+
+        <ion-card>
+
+            <ion-card-content>
+                <div id="normal" *ngIf="this.imc.toFixed(2) > 18.49 && this.imc.toFixed(2) < 25.01">
+                    Votre IMC est normal.
+                </div>
+
+                <div id="bas" *ngIf="this.imc.toFixed(2) < 18.49">
+                    Votre IMC est trop bas.
+                </div>
+
+                <div id="haut" *ngIf="this.imc.toFixed(2) > 25.01">
+                    Votre IMC est trop haut.
+                </div>
+
+            </ion-card-content>
+        </ion-card>
+
+
         <ion-list-header color="light"></ion-list-header>
         <ion-card class="welcome-card">
             <ion-card-header>
@@ -33,7 +40,40 @@
                 <canvas #barChart></canvas>
             </ion-card-content>
         </ion-card>
+
+
+        <ion-card>
+            <ion-item>
+                <ion-label style="text-align:center">Informations pour votre taille</ion-label>
+            </ion-item>
+
+            <ion-card-content>
+
+                <p>Poids de forme : {{this.ideal.toFixed(2)}} Kg </p>
+                <p>Poids minimum : {{this.min.toFixed(2)}} Kg </p>
+                <p>Poids maximum : {{this.max.toFixed(2)}} Kg</p>
+
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-item>
+                <ion-label style="text-align:center">IMC : informations pour un adulte</ion-label>
+            </ion-item>
+
+            <ion-card-content>
+
+                <p> Insuffisant : inférieur 18.5 </p>
+                <P>Normal : compris entre 18.5 et 25</P>
+                <p>Surpoids : compris 25 et 30 </p>
+                <p>Obésité : supérieur 30</p>
+
+            </ion-card-content>
+        </ion-card>
     </ion-content>
+
+
+
 
 
 </ion-content>
