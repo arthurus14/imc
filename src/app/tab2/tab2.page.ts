@@ -5,6 +5,7 @@ import { Location } from "@angular/common";
 
 import { Chart } from 'chart.js';
 
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -63,7 +64,7 @@ export class Tab2Page  {
 
   createBarChart() {
    
-    
+
 
     if(this.imc < 18.49){
       this.couleur = 'blue';
@@ -79,14 +80,15 @@ export class Tab2Page  {
     this.bars = new Chart(this.barChart.nativeElement, {
       type: 'doughnut',
       data: {
-        labels: [],
+        labels: ['Insuffisant','Normal','Surpoids'],
         datasets: [{
           label: 'Votre IMC',
+          showInLegend: false,  
           data: [0,this.imc,40 - this.imc],
           backgroundColor: [
-            'rgba(36, 242, 38, 0.2)',
-              this.couleur,
-            'rgba(250, 59, 39, 0)'
+            'blue',
+            this.couleur,
+            'white'
         ],
         borderColor: [
           'rgba(255,99,132,1)',
@@ -96,7 +98,14 @@ export class Tab2Page  {
           borderWidth: 1
         }]
       },
+    
       options: {
+        legend: {
+          display:false,
+          labels: {
+              fontColor: 'rgb(255, 99, 132)'
+          }
+      },
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
         scales: {
@@ -110,6 +119,14 @@ export class Tab2Page  {
         }
       }
     });
+
+
+
+
+
   }
+
+  
+
 
 }

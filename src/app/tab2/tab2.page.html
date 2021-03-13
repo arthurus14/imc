@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-button fill="clear" (click)="myBackButton()">
+        <ion-button color="medium" fill="clear" (click)="myBackButton()">
             <ion-icon slot="icon-only" name="home"></ion-icon>
         </ion-button>
     </ion-toolbar>
@@ -12,7 +12,7 @@
     <ion-content>
 
 
-        <ion-card>
+        <ion-card color="secondary">
 
             <ion-card-content>
                 <div id="normal" *ngIf="this.imc.toFixed(2) > 18.49 && this.imc.toFixed(2) < 25.01">
@@ -42,7 +42,7 @@
         </ion-card>
 
 
-        <ion-card>
+        <ion-card color="success">
             <ion-item>
                 <ion-label style="text-align:center">Informations pour votre taille</ion-label>
             </ion-item>
@@ -56,7 +56,7 @@
             </ion-card-content>
         </ion-card>
 
-        <ion-card>
+        <ion-card color="secondary">
             <ion-item>
                 <ion-label style="text-align:center">IMC : informations pour un adulte</ion-label>
             </ion-item>
