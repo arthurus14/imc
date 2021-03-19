@@ -4,6 +4,17 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { Chart } from 'chart.js';
+//import { Storage } from '@ionic/storage';
+
+//import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
+import { Injectable } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+import '@capacitor-community/sqlite';
+
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+ 
+
 
 
 @Component({
@@ -14,6 +25,7 @@ import { Chart } from 'chart.js';
 export class Tab2Page  {
 
   @ViewChild('barChart') barChart;
+
 
   bars: any;
   colorArray: any;  
@@ -29,8 +41,46 @@ export class Tab2Page  {
   min:number;
   max:number;
 
-  constructor(private route: ActivatedRoute,private location: Location) {}
-  //...
+  name:[];
+
+  id:number;
+  jour:Date;
+  valeur:number;
+
+
+
+  donnee: Array<string> = [];
+
+  //private db: SQLiteObject;
+
+  constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite) {
+
+    //this.setStorage();
+    //this.getStorage();
+
+    this.createDb();
+    //this.setNative();
+    //this.getNative();
+  }
+
+  createDb():void{
+    this.sqlite.create({
+      name: 'data.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+    
+        db.executeSql('create table IF NOT EXISTS imc(`id` int(11) NOT NULL,`poids` int(11) NOT NULL,`jours` date NOT NULL )', [])
+          .then(() => console.log('Table créée'))
+          .catch(e => console.log(e));
+    
+    
+      })
+      .catch(e => console.log(e));
+  }
+
+
+
   sub = this.route.params.subscribe(params => {
        this.poids = params['poids'].replace('/./','');
        this.taille = params['taille'].replace('.','');
@@ -45,7 +95,7 @@ export class Tab2Page  {
    this.min = ((18.5 * this.poids)/this.imc)+1;
    this.max = ((25 * this.poids)/this.imc);
 
-
+   
        
   });
 
@@ -57,9 +107,60 @@ export class Tab2Page  {
   ionViewDidEnter() {
     this.createBarChart();
   }
+/*
+  setStorage(){
 
   
+    this.route.params.subscribe(params => {
+      this.poids = params['poids'].replace('/./','');
+     
+      var date = new Date();
+let today:Date;
+     today= new Date();
+      let dd = today.getDate();
 
+      var mm = today.getMonth()+1; 
+      var yyyy = today.getFullYear();
+
+      this.storage.set('imc',{
+      
+        'date' : `${dd}-${mm}-${yyyy}`,
+        //'date' : '20-03-2021',
+        'poids' : this.poids
+      }
+      );
+
+
+  //Il réérit sur l'index 4
+      
+ });
+
+ 
+    
+  }
+  */
+/*
+  getStorage(){
+  
+    this.storage.get('imc').then((val) => {
+      console.log('date est :', val.date);
+      console.log('poids est :', val.poids);
+
+   
+  //créer table avec date et poids
+      this.storage.forEach((key, imc, index) => {
+        console.log("clé "+key.poids+" val: "+key.date+" index: "+index);
+      });
+    });
+
+   
+  }
+*/
+
+//
+
+
+//
  
 
   createBarChart() {
