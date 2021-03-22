@@ -47,11 +47,15 @@ export class Tab2Page  {
   jour:Date;
   valeur:number;
 
+  donnees:string[] = [];
 
 
   donnee: Array<string> = [];
 
   //private db: SQLiteObject;
+
+
+  private db:SQLiteObject;
 
   constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite) {
 
@@ -63,21 +67,61 @@ export class Tab2Page  {
     //this.getNative();
   }
 
-  createDb():void{
+//INSERT INTO `imc`(`poids`, `jours`) VALUES ('60','10-03-21')
+
+ private createDb():void{
     this.sqlite.create({
       name: 'data.db',
       location: 'default'
     })
       .then((db: SQLiteObject) => {
+
+        this.db =db;
+
+        db.executeSql('create table IF NOT EXISTS imc(	"id"	INTEGER, "poids"	INTEGER,"jour"	NUMERIC,PRIMARY KEY("id" AUTOINCREMENT))',[])
+          .then(() => alert('Table créée'))
+          .catch(e => alert("erreur"+JSON.stringify(e)));
     
-        db.executeSql('create table IF NOT EXISTS imc(`id` int(11) NOT NULL,`poids` int(11) NOT NULL,`jours` date NOT NULL )', [])
-          .then(() => console.log('Table créée'))
-          .catch(e => console.log(e));
-    
-    
+          //alert('Base de données créée');
       })
-      .catch(e => console.log(e));
+      .catch(e => alert(e));
   }
+
+  saveDb(){
+
+    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (60,'10-03-21')",[])
+    .then(() => alert('Données enregistrées en bdd'))
+    .catch(e => alert(JSON.stringify(e)));
+  
+  //alert('données sauvegardées');
+}
+
+retrieveData(){
+  alert('appel fonction');
+ 
+    this.db.executeSql("SELECT * FROM imc",[])
+    .then((data) =>{
+        alert('lecture bdd');
+      if(data == null){
+        alert('pas de données enregistrées');
+        return;
+      }
+      if(data.rows){
+        alert('afficher données');
+        if(data.rows.length > 0){
+          for(var i = 0; i < data.rows.length; i++){
+            this.donnees.push(data.rows.item(i).poids);
+            //this.donnees.push(data.rows.item(i).jours);
+          }
+        }
+        
+        alert('données affichées '+data.rows.item(i).poids);
+      }
+     
+    })
+    .catch(e => alert(JSON.stringify(e)));
+
+}
 
 
 
