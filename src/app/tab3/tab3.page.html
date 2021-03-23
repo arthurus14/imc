@@ -13,5 +13,16 @@
         </ion-toolbar>
     </ion-header>
 
-    Comming soon :)
+
+    <ion-button expand="full" color="primary" (click)="data()">les données</ion-button>
+
+    <ion-card color="secondary">
+        <label>BDD</label>
+        <ion-list *ngIf="donnees">
+            <ion-item *ngFor="let donnee of donnees">
+                <label>données : {{donnee}}</label>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+
 </ion-content>

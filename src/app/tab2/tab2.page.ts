@@ -89,7 +89,7 @@ export class Tab2Page  {
 
   saveDb(){
 
-    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (60,'10-03-21')",[])
+    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'10-03-21')",[])
     .then(() => alert('Données enregistrées en bdd'))
     .catch(e => alert(JSON.stringify(e)));
   
