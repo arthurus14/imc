@@ -4,9 +4,6 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { Chart } from 'chart.js';
-//import { Storage } from '@ionic/storage';
-
-//import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
@@ -52,19 +49,12 @@ export class Tab2Page  {
 
   donnee: Array<string> = [];
 
-  //private db: SQLiteObject;
-
 
   private db:SQLiteObject;
 
   constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite) {
 
-    //this.setStorage();
-    //this.getStorage();
-
     this.createDb();
-    //this.setNative();
-    //this.getNative();
   }
 
 //INSERT INTO `imc`(`poids`, `jours`) VALUES ('60','10-03-21')
@@ -88,8 +78,15 @@ export class Tab2Page  {
   }
 
   saveDb(){
+    let today:Date;
+     today= new Date();
+      let dd = today.getDate();
 
-    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'10-03-21')",[])
+      var mm = today.getMonth()+1; 
+      var yyyy = today.getFullYear();
+     let date = `${dd}-${mm}-${yyyy}`;
+
+    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'"+date+"')",[])
     .then(() => alert('Données enregistrées en bdd'))
     .catch(e => alert(JSON.stringify(e)));
   
@@ -151,61 +148,6 @@ retrieveData(){
   ionViewDidEnter() {
     this.createBarChart();
   }
-/*
-  setStorage(){
-
-  
-    this.route.params.subscribe(params => {
-      this.poids = params['poids'].replace('/./','');
-     
-      var date = new Date();
-let today:Date;
-     today= new Date();
-      let dd = today.getDate();
-
-      var mm = today.getMonth()+1; 
-      var yyyy = today.getFullYear();
-
-      this.storage.set('imc',{
-      
-        'date' : `${dd}-${mm}-${yyyy}`,
-        //'date' : '20-03-2021',
-        'poids' : this.poids
-      }
-      );
-
-
-  //Il réérit sur l'index 4
-      
- });
-
- 
-    
-  }
-  */
-/*
-  getStorage(){
-  
-    this.storage.get('imc').then((val) => {
-      console.log('date est :', val.date);
-      console.log('poids est :', val.poids);
-
-   
-  //créer table avec date et poids
-      this.storage.forEach((key, imc, index) => {
-        console.log("clé "+key.poids+" val: "+key.date+" index: "+index);
-      });
-    });
-
-   
-  }
-*/
-
-//
-
-
-//
- 
 
   createBarChart() {
    

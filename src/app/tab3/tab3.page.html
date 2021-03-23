@@ -20,7 +20,8 @@
         <label>BDD</label>
         <ion-list *ngIf="donnees">
             <ion-item *ngFor="let donnee of donnees">
-                <label>données : {{donnee}}</label>
+                <label>date : {{donnee.jour}}</label>
+                <label>poids : {{donnee.poids}}</label>
             </ion-item>
         </ion-list>
     </ion-card>

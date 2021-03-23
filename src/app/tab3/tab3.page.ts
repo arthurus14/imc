@@ -18,6 +18,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 export class Tab3Page {
 
   donnees:string[] = [];
+  jour:string[] = [];
 
   private db:SQLiteObject;
 
@@ -60,8 +61,8 @@ data(){
         alert('afficher données');
         if(data.rows.length > 0){
           for(var i = 0; i < data.rows.length; i++){
-            this.donnees.push(data.rows.item(i).poids);
-            //this.donnees.push(data.rows.item(i).jours);
+            this.donnees.push(data.rows.item(i));
+           // this.jour.push(data.rows.item(i).jours);
           }
         }
         

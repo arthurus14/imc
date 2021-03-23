@@ -30,19 +30,6 @@
             </ion-card-content>
         </ion-card>
 
-        <ion-button expand="full" color="primary" (click)="saveDb()">save</ion-button>
-
-        <ion-button expand="full" color="primary" (click)="retrieveData()">les données</ion-button>
-
-        <ion-card color="secondary">
-            <label>BDD</label>
-            <ion-list *ngIf="donnees">
-                <ion-item *ngFor="let donnee of donnees">
-                    <label>données : {{donnee}}</label>
-                </ion-item>
-            </ion-list>
-        </ion-card>
-
 
         <ion-list-header color="light"></ion-list-header>
         <ion-card class="welcome-card">
@@ -88,7 +75,7 @@
 
     <!-- fab placed to the (vertical) center and end -->
     <ion-fab vertical="center" horizontal="end" slot="fixed">
-        <ion-fab-button>
+        <ion-fab-button (click)="saveDb()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>
