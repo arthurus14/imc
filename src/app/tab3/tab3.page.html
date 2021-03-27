@@ -16,6 +16,8 @@
 
     <ion-button expand="full" color="primary" (click)="data()">les données</ion-button>
 
+    <ion-button expand="full" color="primary" (click)="createBarChart()">graphique</ion-button>
+
     <ion-card color="secondary">
         <label>BDD</label>
         <ion-list *ngIf="donnees">
@@ -24,6 +26,17 @@
                 <label>poids : {{donnee.poids}}</label>
             </ion-item>
         </ion-list>
+    </ion-card>
+
+
+    <ion-list-header color="light"></ion-list-header>
+    <ion-card class="welcome-card">
+        <ion-card-header>
+            <ion-card-title style="text-align:center">Statistique</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <canvas #barChart></canvas>
+        </ion-card-content>
     </ion-card>
 
 </ion-content>

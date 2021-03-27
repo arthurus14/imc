@@ -10,12 +10,19 @@ import '@capacitor-community/sqlite';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
+
+
+
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+
+  @ViewChild('barChart') barChart;
+
+  bars: any;
 
   donnees:string[] = [];
   jour:string[] = [];
@@ -25,7 +32,9 @@ export class Tab3Page {
   constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite) {
 
    this.appelBDD();
-   // this.data();
+   //this.data();
+   //this.demo();
+   //this.createBarChart();
 
   }
 
@@ -57,22 +66,127 @@ data(){
         alert('pas de données enregistrées');
         return;
       }
-      if(data.rows){
+     if(data.rows){
         alert('afficher données');
+
+//
         if(data.rows.length > 0){
+
+          var d :any;
           for(var i = 0; i < data.rows.length; i++){
-            this.donnees.push(data.rows.item(i));
+          return d += this.donnees.push(data.rows.item(i));
            // this.jour.push(data.rows.item(i).jours);
           }
+          JSON.parse(d);
+        
+          alert('données affichées d'+d);
         }
         
-        alert('données affichées '+data.rows.item(i).poids);
+        
       }
-     
+      
+    
+
     })
     .catch(e => alert(JSON.stringify(e)));
 
+    this.createBarChart();
+    
 }
 
 
+
+
+
+
+ionViewDidEnter() {
+ // this.createBarChart();
+}
+
+
+
+
+createBarChart() {
+
+ //appeler fonction data() puis appeler le createBarChart
+ //this.data();
+
+ var donnees:string[] = [];
+ var  jour:string[] = [];
+
+  alert("fonction jour JSON : "+this.donnees);
+  //alert("fonction jour values() : "+this.donnees.values());
+  alert("fonction jour map : "+this.donnees.map(e => e));
+  
+//
+this.db.executeSql("SELECT * FROM imc",[])
+    .then((data) =>{
+        alert('lecture bdd');
+      if(data == null){
+        alert('pas de données enregistrées');
+        return;
+      }
+     if(data.rows){
+        alert('afficher données');
+
+//
+        if(data.rows.length > 0){
+
+          for(var i = 0; i < data.rows.length; i++){
+           this.donnees.push(data.rows.item(i).poids);
+           // this.jour.push(data.rows.item(i).jours);
+          }
+        
+          alert('jour '+this.jour); 
+        
+          this.bars = new Chart(this.barChart.nativeElement, {
+            type: 'line',
+            data: {
+              labels: this.jour,
+              datasets: [{
+                label: 'Online viewers in millions',
+                data: this.donnees,
+                backgroundColor: '#ddee44', // array should have same number of elements as number of dataset
+                borderColor: '#ddee44',// array should have same number of elements as number of dataset
+                borderWidth: 1
+              }
+             ]
+            },
+            options: {
+              legend: {
+                display:false,
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            },
+              scales: {
+                xAxes: [{
+                  //suggestedMin:0,
+                  //suggestedMax:50,
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }]
+              }
+            }
+          }); 
+
+        }
+      
+      }
+      
+      
+    
+
+    })
+    .catch(e => alert(JSON.stringify(e)));
+
+
+  
+    
+
+
+  //
+
+}
 }
