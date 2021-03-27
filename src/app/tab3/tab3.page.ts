@@ -134,7 +134,7 @@ this.db.executeSql("SELECT * FROM imc",[])
 
           for(var i = 0; i < data.rows.length; i++){
            this.donnees.push(data.rows.item(i).poids);
-           // this.jour.push(data.rows.item(i).jours);
+           this.jour.push(data.rows.item(i).jour);
           }
         
           alert('jour '+this.jour); 
