@@ -1,18 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-
+import { AlertController } from '@ionic/angular';
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { Chart } from 'chart.js';
 
-import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import '@capacitor-community/sqlite';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
  
-
-
 
 @Component({
   selector: 'app-tab2',
@@ -52,12 +48,10 @@ export class Tab2Page  {
 
   private db:SQLiteObject;
 
-  constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite) {
+  constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite,public alertController: AlertController) {
 
     this.createDb();
   }
-
-//INSERT INTO `imc`(`poids`, `jours`) VALUES ('60','10-03-21')
 
  private createDb():void{
     this.sqlite.create({
@@ -69,15 +63,15 @@ export class Tab2Page  {
         this.db =db;
 
         db.executeSql('create table IF NOT EXISTS imc(	"id"	INTEGER, "poids"	INTEGER,"jour"	NUMERIC,PRIMARY KEY("id" AUTOINCREMENT))',[])
-          .then(() => alert('Table créée'))
+          .then(() => console.log('Table créée'))
           .catch(e => alert("erreur"+JSON.stringify(e)));
     
-          //alert('Base de données créée');
       })
       .catch(e => alert(e));
   }
 
   saveDb(){
+
     let today:Date;
      today= new Date();
       let dd = today.getDate();
@@ -86,47 +80,101 @@ export class Tab2Page  {
       var yyyy = today.getFullYear();
      let date = `${dd}-${mm}-${yyyy}`;
 
-    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'"+date+"')",[])
-    .then(() => alert('Données enregistrées en bdd'))
-    .catch(e => alert(JSON.stringify(e)));
+
+this.db.executeSql("SELECT jour FROM imc",[])
+.then((data) =>{
+ 
+  if(data.rows.length > 0){
+
+    var d :any;
+    for(var i = 0; i < data.rows.length; i++){
+     d += this.donnees.push(data.rows.item(i));
+     if(data.rows.item(i).jour == date){
   
-  //alert('données sauvegardées');
+        this.presentAlertConfirm(this.poids,date);
+     }
+    }
+    JSON.parse(d);
+  
+  }
+  //
+  else{
+    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'"+date+"')",[])
+    .then(() => this.presentAlert())
+    .catch(e => alert(JSON.stringify(e)));
+
+  }
+})
 }
 
+
+
+//
+async presentAlertConfirm(poids,date) {
+  const alert = await this.alertController.create({
+    cssClass: 'my-custom-class',
+    header: 'Attention',
+    message: 'Message <strong>Vous avez déjà enregistrer votre poids ce jour</strong>!!!',
+    buttons: [
+      {
+        text: 'Annuler',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {
+          console.log('Confirm Cancel: blah');
+        }
+      }, {
+        text: 'Voulez vous modfier votre poids ?',
+        handler: () => {
+          //Requête update
+          this.db.executeSql('UPDATE imc SET poids = ?  WHERE jour = ? ',[poids,date])
+          .then(() => console.log('Données enregistrées en bdd'))
+          .catch(e => console.log(JSON.stringify(e)));
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+async presentAlert() {
+  const alert = await this.alertController.create({
+    cssClass: 'my-custom-class',
+    header: 'Alert',
+    subHeader: 'Félicitation',
+    message: 'Votre poids a été enregistré',
+    buttons: ['OK']
+  });
+
+  await alert.present();
+}
+
+
+
 retrieveData(){
-  alert('appel fonction');
- 
+  
     this.db.executeSql("SELECT * FROM imc",[])
-    .then((data) =>{
-        alert('lecture bdd');
+    .then((data) =>{      
       if(data == null){
-        alert('pas de données enregistrées');
         return;
       }
       if(data.rows){
-        alert('afficher données');
+       
         if(data.rows.length > 0){
           for(var i = 0; i < data.rows.length; i++){
             this.donnees.push(data.rows.item(i).poids);
             //this.donnees.push(data.rows.item(i).jours);
           }
         }
-        
-        alert('données affichées '+data.rows.item(i).poids);
       }
-     
     })
     .catch(e => alert(JSON.stringify(e)));
-
 }
-
-
-
   sub = this.route.params.subscribe(params => {
        this.poids = params['poids'].replace('/./','');
        this.taille = params['taille'].replace('.','');
-       
-       
+             
    this.imc = (this.poids/(this.taille * this.taille)*10000);  
    
    //poids idéal formule de Broca
@@ -136,9 +184,9 @@ retrieveData(){
    this.min = ((18.5 * this.poids)/this.imc)+1;
    this.max = ((25 * this.poids)/this.imc);
 
-   
-       
   });
+
+ 
 
   myBackButton(){
     this.location.back();
@@ -206,10 +254,6 @@ retrieveData(){
         }
       }
     });
-
-
-
-
 
   }
 
