@@ -37,7 +37,7 @@ export class Tab2Page  {
   name:[];
 
   id:number;
-  jour:Date;
+  //jour:Date;
   valeur:number;
 
   donnees:string[] = [];
@@ -45,6 +45,7 @@ export class Tab2Page  {
 
   donnee: Array<string> = [];
 
+  jour:string[] = [];
 
   private db:SQLiteObject;
 
@@ -81,29 +82,65 @@ export class Tab2Page  {
      let date = `${dd}-${mm}-${yyyy}`;
 
 
-this.db.executeSql("SELECT jour FROM imc",[])
+this.db.executeSql("SELECT * FROM imc ORDER BY id DESC LIMIT 1",[])
 .then((data) =>{
- 
+  
+
+
+
+
   if(data.rows.length > 0){
 
-    var d :any;
-    for(var i = 0; i < data.rows.length; i++){
-     d += this.donnees.push(data.rows.item(i));
-     if(data.rows.item(i).jour == date){
-  
-        this.presentAlertConfirm(this.poids,date);
-     }
-    }
-    JSON.parse(d);
-  
-  }
-  //
-  else{
-    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'"+date+"')",[])
-    .then(() => this.presentAlert())
-    .catch(e => alert(JSON.stringify(e)));
 
+    console.log('length '+data.rows.length);
+     //Affiche 1
+     console.log('jour d = '+data);
+
+     //console.log('jour data read = '+data.jour.read());
+
+     //console.log("data "+data.value());
+     console.log("data "+data.jour);
+
+    var d :any;
+
+    //console.log("data = "+JSON.parse(data.jour));
+    //console.log("data item 1 = "+data.item(1));
+    //console.log("data item 1 jour = "+data.item(1).jour);
+    
+
+    for(var i = 0; i < data.rows.length; i++){
+     //d += this.donnees.push(data.rows.item(i));
+
+     var item = data.rows.item(i).jour;
+
+     //alert("item "+item);
+
+
+     d = this.jour.push(data.rows.item(i).jour);
+
+   
+
+      
+    
+    }
+
+    
+
+    if(item == date){
+  
+      this.presentAlertConfirm(this.poids,date);
+   }
+   else{
+    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'"+date+"')",[])
+    .then(() => console.log('Données enregistrées'))
+    .catch(e => alert(JSON.stringify(e)));
+    this.presentAlert();
   }
+    //JSON.parse(d);
+  
+  }
+    
+ 
 })
 }
 

@@ -26,6 +26,9 @@ export class Tab3Page {
   donnees:string[] = [];
   jour:string[] = [];
 
+
+  nb: number;
+
   private db:SQLiteObject;
 
   constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite) {
@@ -54,19 +57,19 @@ export class Tab3Page {
 
 
 
-ionViewDidEnter() {
-  this.createBarChart();
+ionViewWillEnter() {
+  this.createBarChart(7);
 }
 
-createBarChart() {
+createBarChart(nb) {
 
-
-  //remise à zero du graphique quand on quitte la page
+  
+  //Trois bouton 1: 7 derniers jours, 30 derniers jours et 90 derniers jours
 
  var donnees:string[] = [];
  var  jour:string[] = [];
 
-this.db.executeSql("SELECT * FROM imc",[])
+this.db.executeSql("SELECT * FROM imc ORDER BY id DESC LIMIT  \""+nb+"\" ",[])
     .then((data) =>{
 
       if(data == null){
