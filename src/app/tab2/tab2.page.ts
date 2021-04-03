@@ -151,7 +151,7 @@ async presentAlertConfirm(poids,date) {
   const alert = await this.alertController.create({
     cssClass: 'my-custom-class',
     header: 'Attention',
-    message: 'Message <strong>Vous avez déjà enregistrer votre poids ce jour</strong>!!!',
+    message: '<strong>Vous avez déjà enregistré votre poids ce jour</strong>!!!',
     buttons: [
       {
         text: 'Annuler',

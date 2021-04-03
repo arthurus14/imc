@@ -91,12 +91,12 @@ this.db.executeSql("SELECT * FROM imc ORDER BY id DESC LIMIT  \""+nb+"\" ",[])
           this.bars = new Chart(this.barChart.nativeElement, {
             type: 'line',
             data: {
-              labels: this.jour,
+              labels: this.jour.reverse(),
               datasets: [{
                 label: 'Enregistrement de votre poids',
-                data: this.donnees,
-                backgroundColor: 'blue',
-                borderColor: 'blue',
+                data: this.donnees.reverse(),
+                backgroundColor: '#498AFF',
+                borderColor: '#498AFF',
                 borderWidth: 1
               }
              ]
