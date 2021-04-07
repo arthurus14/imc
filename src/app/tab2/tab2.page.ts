@@ -47,6 +47,8 @@ export class Tab2Page  {
 
   jour:string[] = [];
 
+  imcInfo:string;
+
   private db:SQLiteObject;
 
   constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite,public alertController: AlertController) {
@@ -178,7 +180,7 @@ async presentAlertConfirm(poids,date) {
 async presentAlert() {
   const alert = await this.alertController.create({
     cssClass: 'my-custom-class',
-    header: 'Alert',
+    header: 'Enregistré',
     subHeader: 'Félicitation',
     message: 'Votre poids a été enregistré',
     buttons: ['OK']
@@ -220,6 +222,22 @@ retrieveData(){
    //imc mini
    this.min = ((18.5 * this.poids)/this.imc)+1;
    this.max = ((25 * this.poids)/this.imc);
+
+   //IMC info
+   if(this.imc > 18.49 && this.imc < 25.1){
+
+    this.imcInfo = "Votre IMC est normal";
+   }
+
+   if(this.imc < 18.49){
+
+    this.imcInfo = "Votre IMC est trop bas";
+   }
+
+   if(this.imc > 25.1){
+
+    this.imcInfo = "Votre IMC est trop haut";
+   }
 
   });
 

@@ -15,6 +15,7 @@
         <ion-card color="secondary">
 
             <ion-card-content>
+                <!--
                 <div id="normal" *ngIf="this.imc.toFixed(2) > 18.49 && this.imc.toFixed(2) < 25.01">
                     Votre IMC est normal.
                 </div>
@@ -26,7 +27,9 @@
                 <div id="haut" *ngIf="this.imc.toFixed(2) > 25.01">
                     Votre IMC est trop haut.
                 </div>
+                -->
 
+                {{this.imcInfo}}
             </ion-card-content>
         </ion-card>
 

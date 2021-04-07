@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page {
 
+  public poids:number;
+  public taille:number;
+  
   constructor(public navCtrl : NavController, private router : Router) {}
 
   public imc(poids:number,taille:number){
