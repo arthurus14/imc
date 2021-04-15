@@ -29,22 +29,18 @@
             </ion-card-content>
         </ion-card>
 
-        <!--
-                <ion-card color="success">
-                    <ion-item>
-                        <ion-label style="text-align:center">Informations pour votre taille</ion-label>
-                    </ion-item>
+        <ion-card color="success">
+            <ion-item>
+                <ion-label style="text-align:center">Informations pour votre taille</ion-label>
+            </ion-item>
 
-                    <ion-card-content>
+            <ion-card-content>
+                <p>Poids minimum : {{this.min.toFixed(2)}} Kg</p>
+                <p>Poids maximum : {{this.max.toFixed(2)}} Kg</p>
+            </ion-card-content>
+        </ion-card>
 
-                        
-                        <p>Poids minimum : {{this.min.toFixed(2)}} Kg </p>
-                        <p>Poids maximum : {{this.max.toFixed(2)}} Kg</p>
 
-                    </ion-card-content>
-                </ion-card>
-
-            -->
 
         <ion-card color="secondary">
             <ion-item>
@@ -61,6 +57,13 @@
             </ion-card-content>
         </ion-card>
     </ion-content>
+
+    <!-- lien vers les statistiques -->
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button (click)="sendTab3()">
+            <ion-icon name="analytics-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 
 
     <!-- fab placed to the (vertical) center and end -->

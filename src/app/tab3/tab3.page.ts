@@ -56,9 +56,12 @@ export class Tab3Page {
 }
 
 
-
 ionViewWillEnter() {
   this.createBarChart(7);
+}
+
+myBackButton(){
+  this.location.back();
 }
 
 createBarChart(nb) {

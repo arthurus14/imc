@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController,NavController } from '@ionic/angular';
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
@@ -8,6 +8,9 @@ import { Chart } from 'chart.js';
 import '@capacitor-community/sqlite';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+
+import { Tab3Page } from '../tab3/tab3.page';
+import { Router } from '@angular/router';
  
 
 @Component({
@@ -51,7 +54,7 @@ export class Tab2Page  {
 
   private db:SQLiteObject;
 
-  constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite,public alertController: AlertController) {
+  constructor(private route: ActivatedRoute,private location: Location,private sqlite: SQLite,public alertController: AlertController,public navCtrl : NavController, private router : Router) {
 
     this.createDb();
   }
@@ -255,6 +258,12 @@ retrieveData(){
 
   ionViewDidEnter() {
     this.createBarChart();
+  }
+
+  sendTab3(){
+
+    this.router.navigate(['Tab3Page',{}]);
+
   }
 
   createBarChart() {
