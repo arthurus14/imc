@@ -133,20 +133,25 @@ this.db.executeSql("SELECT * FROM imc ORDER BY id DESC LIMIT 1",[])
       this.presentAlertConfirm(this.poids,date);
    }
    else{
-    this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+this.poids+"\",'"+date+"')",[])
-    .then(() => console.log('Données enregistrées'))
-    .catch(e => alert(JSON.stringify(e)));
-    this.presentAlert();
+    this.insertData(this.poids,date);
   }
-    //JSON.parse(d);
   
+  
+  }else{
+    // 1 er enregistrement
+    this.insertData(this.poids,date);
   }
     
  
 })
 }
 
-
+insertData(poids,date){
+  this.db.executeSql("INSERT INTO imc('poids', 'jour') VALUES (\""+poids+"\",'"+date+"')",[])
+  .then(() => console.log('Données enregistrées'))
+  .catch(e => alert(JSON.stringify(e)));
+  this.presentAlert();
+}
 
 //
 async presentAlertConfirm(poids,date) {

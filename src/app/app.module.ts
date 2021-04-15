@@ -12,6 +12,9 @@ import {SQLite} from '@ionic-native/sqlite/ngx';
 
 import { IonicStorageModule } from '@ionic/storage-angular';
 
+
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
