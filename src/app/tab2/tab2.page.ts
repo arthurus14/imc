@@ -22,6 +22,8 @@ export class Tab2Page  {
 
   @ViewChild('barChart') barChart;
 
+  @ViewChild('i') i;
+
 
   bars: any;
   colorArray: any;  
@@ -257,7 +259,8 @@ retrieveData(){
    
 
   ionViewDidEnter() {
-    this.createBarChart();
+    //this.createBarChart();
+    this.createChart();
   }
 
   sendTab3(){
@@ -265,6 +268,113 @@ retrieveData(){
     this.router.navigate(['Tab3Page',{}]);
 
   }
+
+createChart(){
+
+  let result:Number;
+
+  if(this.imc < 18.49){
+    result = this.imc; 
+  }
+  if(this.imc > 18.49 && this.imc < 25.01){
+    result = this.imc + 18.49;
+  }
+  if(this.imc > 25 && this.imc < 30){
+    result = this.imc + 18.49 + 25;
+  }
+  if(this.imc > 30){
+    result = this.imc + 18.49 + 25 + 30;
+  }
+
+
+  this.bars = new Chart(this.i.nativeElement, {
+    type: 'doughnut',
+    plugins: [{
+      afterDraw: chart => {
+        var needleValue = chart.chart.config.data.datasets[0].needleValue;
+        var dataTotal = chart.chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
+        var angle = Math.PI + (1 / dataTotal * needleValue * Math.PI);
+        var ctx = chart.chart.ctx;
+        var cw = chart.chart.canvas.offsetWidth;
+        var ch = chart.chart.canvas.offsetHeight;
+        var cx = cw / 2;
+        var cy = ch - 6;
+
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(0, -3);
+        ctx.lineTo(ch - 20, 0);
+        ctx.lineTo(0, 3);
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fill();
+        ctx.rotate(-angle);
+        ctx.translate(-cx, -cy);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }],
+    data: {
+      labels: ['Insuffisant','Normal','Surpoids','Obésité'],
+      datasets: [{
+        label: 'Votre IMC',
+        showInLegend: true,  
+        data: [18.50, 25, 29, 50],
+
+        //faire 4 segments égaux, puis ajouter +18.50 si IMC normal ...
+        needleValue: result,
+        backgroundColor: [
+          'blue',
+          'green',
+          'orange',
+          'red'
+      ],
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 0)'
+    ],
+        borderWidth: 1
+      }]
+    },
+  
+    options: {
+      layout: {
+
+        //padding modification +
+        padding: {
+          bottom: -18
+        }
+      },
+      
+      legend: {
+        display:false,
+        labels: {
+            fontColor: '#FFF'
+        },
+    },
+    
+      rotation: 1 * Math.PI,
+      circumference: 1 * Math.PI,
+      scales: {
+        xAxes: [{
+          suggestedMin:0,
+          suggestedMax:50,
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+    
+   
+
+  });
+  
+
+}
+
 
   createBarChart() {
    
@@ -288,10 +398,10 @@ retrieveData(){
         datasets: [{
           label: 'Votre IMC',
           showInLegend: false,  
-          data: [0,this.imc,40 - this.imc],
+          data: [ 0, this.imc, 40 - this.imc],
           backgroundColor: [
             'blue',
-            this.couleur,
+            'green',
             'white'
         ],
         borderColor: [
@@ -307,7 +417,7 @@ retrieveData(){
         legend: {
           display:false,
           labels: {
-              fontColor: 'rgb(255, 99, 132)'
+              fontColor: '#FFF'
           }
       },
         rotation: 1 * Math.PI,
